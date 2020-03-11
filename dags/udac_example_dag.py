@@ -31,6 +31,14 @@ drop_tables = PostgresOperator(
     postgres_conn_id='redshift_conn'
 )
 
+create_tables = PostgresOperator(
+    task_id='Create_tables',
+    dag=dag,
+    sql='create_tables.sql',
+    autocommit=True,
+    postgres_conn_id='redshift_conn'
+)
+
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     dag=dag
