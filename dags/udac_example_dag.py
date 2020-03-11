@@ -5,6 +5,7 @@ from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
                                 LoadDimensionOperator, DataQualityOperator)
 from helpers import SqlQueries
+from airflow.operators.postres_operator import PostgresOperator
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
@@ -21,6 +22,14 @@ dag = DAG('udac_example_dag',
         )
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
+
+drop_tables = PostgresOperator(
+    task_id='Drop_tables',
+    dag=dag,
+    sql='drop_tables.sql',
+    autocommit=True,
+    postgres_conn_id='redshift_conn'
+)
 
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
