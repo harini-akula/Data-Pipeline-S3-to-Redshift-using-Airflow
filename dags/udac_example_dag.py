@@ -64,7 +64,10 @@ stage_songs_to_redshift = StageToRedshiftOperator(
 
 load_songplays_table = LoadFactOperator(
     task_id='Load_songplays_fact_table',
-    dag=dag
+    dag=dag,
+    redshift_conn_id='redshift_conn',
+    insert_facts_query=songplay_table_insert,
+    facts_table_name='songplays'   
 )
 
 load_user_dimension_table = LoadDimensionOperator(
