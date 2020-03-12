@@ -4,7 +4,7 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
                                 LoadDimensionOperator, DataQualityOperator)
-from helpers import SqlQueries
+from helpers import SqlQueries, Tests
 from airflow.operators.postres_operator import PostgresOperator
 
 # AWS_KEY = os.environ.get('AWS_KEY')
@@ -108,7 +108,9 @@ load_time_dimension_table = LoadDimensionOperator(
 
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
-    dag=dag
+    dag=dag,
+    redshift_conn_id='redshift_conn',
+    table_rowcounts_tests=Tests.tests_results
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
