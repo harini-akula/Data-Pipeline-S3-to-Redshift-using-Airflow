@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS public.staging_events;
+DROP TABLE IF EXISTS public.staging_songs;
+DROP TABLE IF EXISTS public.songplays;
+DROP TABLE IF EXISTS public.songs;
+DROP TABLE IF EXISTS public.artists;
+DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS public.time;
+
 CREATE TABLE public.artists (
 	artistid varchar(256) NOT NULL,
 	name varchar(256),
@@ -52,10 +60,10 @@ CREATE TABLE public.staging_events (
 CREATE TABLE public.staging_songs (
 	num_songs int4,
 	artist_id varchar(256),
-	artist_name varchar(256),
+	artist_name varchar(400),
 	artist_latitude numeric(18,0),
 	artist_longitude numeric(18,0),
-	artist_location varchar(256),
+	artist_location varchar(400),
 	song_id varchar(256),
 	title varchar(256),
 	duration numeric(18,0),
@@ -76,7 +84,7 @@ CREATE TABLE public.time (
 	hour smallint NOT NULL, 
 	day smallint NOT NULL, 
 	week smallint NOT NULL, 
-	month smallint NOT NULL, d
+	month smallint NOT NULL,
 	year smallint NOT NULL, 
 	weekday smallint NOT NULL, 
 	CONSTRAINT time_pkey PRIMARY KEY (start_time)
