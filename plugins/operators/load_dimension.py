@@ -28,15 +28,17 @@ class LoadDimensionOperator(BaseOperator):
         self.append_only_flag=append_only_flag
 
     def execute(self, context):
-        self.log.info('LoadDimensionOperator for {} table started...'.format(self.dim_table_name))
+        self.log.info('LoadDimensionOperator for {} table started.'.format(self.dim_table_name))
         redshift = PostgresHook(self.redshift_conn_id)
         
-        if not self.append_only_flag:
+        if not self.append_only_flag:            
             formatted_delete_query = self.delete_query.format(self.dim_table_name)
+            self.log.info('Deletion of records from {} table started.'.format(self.dim_table_name)) 
             redshift.run(formatted_delete_query)
-            self.log.info('Existing records from {} table are deleted'.format(self.dim_table_name))            
+            self.log.info('Existing records from {} table are deleted.'.format(self.dim_table_name))            
             
         formatted_insert_query = self.insert_query.format(self.dim_table_name, self.select_dim_query)
+        self.log.info('Insertion of records into {} table started.'.format(self.dim_table_name)) 
         redshift.run(formatted_insert_query)
-        self.log.info('Records inserted into {} table'.format(self.dim_table_name))
+        self.log.info('Records inserted into {} table.'.format(self.dim_table_name))
         
