@@ -17,10 +17,11 @@ class DataQualityOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
 
     def execute(self, context):
-        self.log.info('Execution of DataQualityOperator started...')
+        self.log.info('Execution of DataQualityOperator started.')
         redshift = PostgresHook(self.redshift_conn_id)
         
         for table, exp_row_count in self.table_rowcounts_tests.items():
+            self.log.info(f'Retrieving records from table {table}.')
             records = redshift.get_records(f'SELECT COUNT(*) FROM {table}')
             actual_row_count = records[0][0]
             if actual_row_count != exp_row_count:
