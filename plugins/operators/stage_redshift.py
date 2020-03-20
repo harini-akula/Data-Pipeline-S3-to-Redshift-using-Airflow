@@ -36,13 +36,17 @@ class StageToRedshiftOperator(BaseOperator):
         self.json_format=json_format
 
     def execute(self, context):
+        self.log.info(f'Creating AWS connection for loading {self.table} table.')
         aws_conn = AwsHook(self.aws_conn_id)
+        self.log.info(f'Created AWS connection for loading {self.table} table.')
+        
         credentials = aws_conn.get_credentials()
-        
+        self.log.info(f'Creating Redshift connection for loading {self.table} table.')
         redshift = PostgresHook(self.redshift_conn_id)
-        
+        self.log.info(f'Created Redshift connection for loading {self.table} table.')
         rendered_key = self.s3_key.format(**context)
         s3_path = "s3://{}/{}".format(self.s3_bucket, rendered_key)
+        
         formatted_query = self.copy_query.format(
             self.table,
             s3_path,
@@ -51,5 +55,7 @@ class StageToRedshiftOperator(BaseOperator):
             self.region,
             self.json_format
         )
+        self.log.info(f'Started loading data into {self.table} table from s3 path: {s3_path}.')
         redshift.run(formatted_query)
+        self.log.info(f'Loaded data into {self.table} table from s3 path: {s3_path}.')
         
