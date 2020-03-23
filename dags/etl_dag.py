@@ -21,7 +21,7 @@ dag = DAG('etl_dag',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
           template_searchpath='/home/workspace/airflow',
-          schedule_interval=None
+          schedule_interval='@hourly'
         )
 
 # Dummy operator
