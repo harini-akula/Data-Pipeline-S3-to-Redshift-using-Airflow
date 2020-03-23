@@ -1,3 +1,4 @@
+# Queries to retrieve records from staging tables to insert into analytics tables
 class SqlQueries:
     songplay_table_insert = ("""
         SELECT
