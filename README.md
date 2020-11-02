@@ -1,6 +1,6 @@
-# Sparkify Pipeline
+# Sparkify Data Pipeline
 
-Sparkify Pipeline is a Redshift database that stores the user activity and songs metadata on Sparkify's new streaming application. Previously this information resided in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app. ETL pipeline is built that extracts their data from S3, stages them in Redshift, transforms data into a set of dimensional tables and fact table, performs data quality checks using airflow. Also using airflow UI, DAG tasks can be monitored during execution.
+Sparkify Data Pipeline is a Redshift database that stores the user activity and songs metadata on Sparkify's new streaming application. Previously this information resided in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app. ETL pipeline is built that extracts their data from S3, stages them in Redshift, transforms data into a set of dimensional tables and fact table, performs data quality checks using airflow. Also using airflow UI, DAG tasks can be monitored during execution.
 
 ## Purpose
 
